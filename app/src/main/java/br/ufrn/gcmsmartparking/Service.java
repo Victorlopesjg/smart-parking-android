@@ -25,7 +25,7 @@ public class Service extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
-        Log.d(TAG, "Message: " + remoteMessage.getData());
+            Log.d(TAG, "Message: " + remoteMessage.getData());
 
         sendNotification("Ei funfou");
     }

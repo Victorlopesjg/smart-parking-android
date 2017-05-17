@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "598985246753",
+    "firebase_url": "https://api-project-598985246753.firebaseio.com",
+    "project_id": "api-project-598985246753",
+    "storage_bucket": "api-project-598985246753.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598985246753:android:ed4f4478eb530ca7",
+        "android_client_info": {
+          "package_name": "br.ufrn.gcmsmartparking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598985246753-k01tcv013krrk12qjkrb59dh3ucbegt5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYMwd-8jPTzCZ0KaJQZot6XYJeSJbQ01w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
