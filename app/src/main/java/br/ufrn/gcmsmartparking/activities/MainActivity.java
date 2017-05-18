@@ -1,4 +1,4 @@
-package br.ufrn.gcmsmartparking;
+package br.ufrn.gcmsmartparking.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,40 +8,39 @@ import android.content.SharedPreferences;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import br.ufrn.gcmsmartparking.R;
+import br.ufrn.gcmsmartparking.configs.Config;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private TextView nameClient;
+    private TextView plate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.nameClient = (TextView) findViewById(R.id.nameClient);
+        this.plate = (TextView) findViewById(R.id.plate);
+        this.nameClient.setText("Dannylo Johnathan");
+        this.plate.setText("HXM-8899");
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
 
-                if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
-                    FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
+                FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
 
-                    displayFirebaseRegId();
+                displayFirebaseRegId();
 
-                } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
-
-                    String message = intent.getStringExtra("message");
-
-                    Toast.makeText(getApplicationContext(), "Push notification: " + message, Toast.LENGTH_LONG).show();
-
-                    Log.e(TAG, "Firebase reg id: " + message);
-                }
             }
         };
 
