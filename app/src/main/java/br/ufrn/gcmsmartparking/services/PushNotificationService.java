@@ -9,8 +9,13 @@ import android.net.Uri;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import br.ufrn.gcmsmartparking.activities.MainActivity;
 import br.ufrn.gcmsmartparking.R;
@@ -23,6 +28,7 @@ import br.ufrn.gcmsmartparking.R;
 public class PushNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    private ObjectMapper objectMapper = null;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -31,6 +37,15 @@ public class PushNotificationService extends FirebaseMessagingService {
             Log.d(TAG, "Message: " + remoteMessage.getData());
 
         sendNotification("Sua vaga é: " + remoteMessage.getData().get("message"));
+
+    }
+
+    private ObjectMapper getObjectMapperInstance() {
+        if (objectMapper == null) {
+            objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        }
+        return objectMapper;
     }
     
 

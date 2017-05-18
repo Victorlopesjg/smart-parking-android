@@ -36,11 +36,8 @@ public class MainActivity extends AppCompatActivity {
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
                 FirebaseMessaging.getInstance().subscribeToTopic(Config.TOPIC_GLOBAL);
-
                 displayFirebaseRegId();
-
             }
         };
 
@@ -49,7 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void displayFirebaseRegId() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
-        String regId = pref.getString("regId", null);
+        String regId = pref.getString(getString(R.string.key_preference_token), null);
+
+        String user = pref.getString(getString(R.string.key_preference_user), null);
+        if (user != null) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        }
 
         Log.e(TAG, "Firebase reg id: " + regId);
     }
