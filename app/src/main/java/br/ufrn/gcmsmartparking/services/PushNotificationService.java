@@ -1,4 +1,4 @@
-package br.ufrn.gcmsmartparking;
+package br.ufrn.gcmsmartparking.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -12,12 +12,15 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import br.ufrn.gcmsmartparking.activities.MainActivity;
+import br.ufrn.gcmsmartparking.R;
+
 /**
  * Created by Victor Oliveira on 16/05/17.
  * Email: victorlopesjg@gmail.com
  */
 
-public class Service extends FirebaseMessagingService {
+public class PushNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
 
@@ -27,8 +30,9 @@ public class Service extends FirebaseMessagingService {
 
             Log.d(TAG, "Message: " + remoteMessage.getData());
 
-        sendNotification("Ei funfou");
+        sendNotification("Sua vaga é: " + remoteMessage.getData().get("message"));
     }
+    
 
     private void sendNotification(String messageBody) {
         Intent intent = new Intent(this, MainActivity.class);

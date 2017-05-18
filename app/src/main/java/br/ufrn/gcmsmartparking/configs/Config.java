@@ -1,4 +1,4 @@
-package br.ufrn.gcmsmartparking;
+package br.ufrn.gcmsmartparking.configs;
 
 /**
  * Created by Ravi Tamada on 28/09/16.

@@ -8,10 +8,67 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.ufrn.gcmsmartparking.MainActivity">
+    tools:context="br.ufrn.gcmsmartparking.activities.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Name:"
+        android:textSize="25sp"
+        android:id="@+id/textView" />
+
+    <TextView
+        android:id="@+id/nameClient"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TexteName"
+        android:textSize="22sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignBaseline="@+id/textView"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Plate:"
+        android:textSize="25sp"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/plate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Value"
+        android:textSize="22sp"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignLeft="@+id/nameClient"
+        android:layout_alignStart="@+id/nameClient" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="220px"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/view" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0000"
+        android:textSize="75sp"
+        android:textColor="@android:color/holo_green_dark"
+        android:id="@+id/vacancy"
+        android:layout_marginTop="110dp"
+        android:layout_below="@+id/view"
+        android:layout_centerHorizontal="true" />
+
+
 </RelativeLayout>
