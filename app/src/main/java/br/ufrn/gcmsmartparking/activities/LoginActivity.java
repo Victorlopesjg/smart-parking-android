@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
         loginAction = (Button) findViewById(R.id.loginButton);
         progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.INVISIBLE);
 
         loginAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             user.setSenha(params[1]);
             Log.i("LOGIN", user.getLogin() + " " + user.getSenha());
             try {
-                User userResponse = this.getInstanceWebService().login(user, getApplicationContext());
+                User userResponse = this.getInstanceWebService().auth(user, getApplicationContext());
                 if(userResponse != null) {
                     PreferencesUserTools.setPreferencias(userResponse, USER_KEY, false, getApplicationContext());
                 }

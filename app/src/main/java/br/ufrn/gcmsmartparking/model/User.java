@@ -1,5 +1,6 @@
 package br.ufrn.gcmsmartparking.model;
 
+import br.ufrn.gcmsmartparking.annotation.AUTH;
 import br.ufrn.gcmsmartparking.annotation.POST;
 import br.ufrn.gcmsmartparking.annotation.PUT;
 
@@ -10,6 +11,7 @@ import br.ufrn.gcmsmartparking.annotation.PUT;
 
 @POST("user/create")
 @PUT("user/update")
+@AUTH("user/auth")
 public class User {
     private String login;
     private String senha;
