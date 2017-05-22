@@ -3,6 +3,7 @@ package br.ufrn.gcmsmartparking.business;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import br.ufrn.gcmsmartparking.R;
 import br.ufrn.gcmsmartparking.model.User;
 
 /**
@@ -13,6 +14,11 @@ public class PreferencesUserTools {
 
     private static SharedPreferences sharedPreferences;
     private static final String PREFS_PRIVATE = "PREFS_PRIVATE";
+
+    public static boolean isPreference(Context context) {
+        return (PreferencesUserTools.getPreferencias(context.getString(R.string.key_preference_user), context) != null
+                && !PreferencesUserTools.getPreferencias(context.getString(R.string.key_preference_user), context).isEmpty());
+    }
 
     // Limpar preferencias do smartphone
     public static void cleanPreferences(Context context) {

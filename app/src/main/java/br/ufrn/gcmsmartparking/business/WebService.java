@@ -89,7 +89,7 @@ public class WebService {
         return null;
     }
 
-    public User auth(User user, Context context) throws Exception {
+    public boolean auth(User user, Context context) throws Exception {
         ResponseEntity<String> responseEntity = null;
         url = context.getApplicationContext().getResources().getString(R.string.key_base_url_webservice);
         try {
@@ -102,22 +102,17 @@ public class WebService {
 
             HttpEntity<String> requestEntity = new HttpEntity<String>(getObjectMapperInstance().writeValueAsString(user), headers);
             responseEntity = getRestTemplateInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(responseEntity.getStatusCode().value());
 
-            if (responseEntity.getBody() != null) {
-                if (responseEntity.getStatusCode().value() == HttpStatus.OK.value()) {
-                    return (User) getObjectMapperInstance().readValue(responseEntity.getBody().toString(), user.getClass());
-                } else {
-                    throw new Exception(responseEntity.getStatusCode().value() + "," + responseEntity.getBody().toString());
-                }
+            if (responseEntity.getStatusCode().value() == HttpStatus.OK.value() || responseEntity.getStatusCode().value() == HttpStatus.CREATED.value()) {
+                return true;
+            } else {
+                return false;
             }
         } catch (Exception e) {
             throw new Exception(responseEntity.getStatusCode().value() + "," + responseEntity.getBody().toString());
         }
-
-        return null;
     }
-
-
 
     private RestTemplate getRestTemplateInstance() {
         if (restTemplate == null) {

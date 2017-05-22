@@ -28,9 +28,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext()) != null
-                && !PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext()).equalsIgnoreCase("")){
+        if (PreferencesUserTools.isPreference(getApplicationContext())) {
             startActivity(new Intent(this, MainActivity.class));
+        } else {
+            PreferencesUserTools.cleanPreferences(getApplicationContext());
         }
 
         login = (EditText) findViewById(R.id.login);
@@ -49,12 +50,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private class LoginTask extends AsyncTask<String, String, Void> {
+    private class LoginTask extends AsyncTask<String, Boolean, Boolean> {
 
         private WebService webService;
 
-        public WebService getInstanceWebService(){
-            if(webService == null){
+        private WebService getInstanceWebService() {
+            if (webService == null) {
                 this.webService = new WebService();
             }
             return webService;
@@ -66,33 +67,35 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(String... params) {
+        protected Boolean doInBackground(String... params) {
             User user = new User();
             user.setLogin(params[0]);
             user.setPassword(params[1]);
             Log.i("LOGIN", user.getLogin() + " " + user.getPassword());
             try {
-                User userResponse = this.getInstanceWebService().auth(user, getApplicationContext());
-                if(userResponse != null) {
-                    PreferencesUserTools.setPreferencias(userResponse, getResources().getString(R.string.key_preference_user), false, getApplicationContext());
+                boolean authorized = this.getInstanceWebService().auth(user, getApplicationContext());
+                if (authorized) {
+                    PreferencesUserTools.setPreferencias(user, getString(R.string.key_preference_user), false, getApplicationContext());
                 }
+                return authorized;
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return null;
+            return false;
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if(PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext()) != null &&
-                    PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext()).equals(login.getText().toString())){
-                progressBar.setVisibility(View.GONE);
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            progressBar.setVisibility(View.GONE);
+
+            if (result) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             } else {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), "Usuário ou senha inválidos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Usuário não encontrado", Toast.LENGTH_SHORT).show();
             }
+
         }
     }
 

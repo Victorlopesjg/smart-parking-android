@@ -29,14 +29,29 @@ public class PushNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     private ObjectMapper objectMapper = null;
+    private static MainActivity mMainActivity = null;
+
+    public static void setMainActivity(MainActivity mainActivity) {
+        mMainActivity = mainActivity;
+    }
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(final RemoteMessage remoteMessage) {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
-            Log.d(TAG, "Message: " + remoteMessage.getData());
+        Log.d(TAG, "Message: " + remoteMessage.getData());
 
-        sendNotification("Sua vaga é: " + remoteMessage.getData().get("message"));
+        sendNotification("Sua vaga é: " + remoteMessage.getData().get("message"), remoteMessage.getData().get("message"));
+
+        if (mMainActivity != null) {
+            mMainActivity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mMainActivity.updateLayout(remoteMessage.getData().get("message"));
+                }
+            });
+
+        }
 
     }
 
@@ -47,15 +62,16 @@ public class PushNotificationService extends FirebaseMessagingService {
         }
         return objectMapper;
     }
-    
 
-    private void sendNotification(String messageBody) {
+
+    private void sendNotification(String messageBody, String vaga) {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(getString(R.string.key_intent_vaga), vaga);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle("Smart Parking")

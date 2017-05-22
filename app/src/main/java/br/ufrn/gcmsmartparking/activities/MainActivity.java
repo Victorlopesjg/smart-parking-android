@@ -10,29 +10,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import br.ufrn.gcmsmartparking.R;
 import br.ufrn.gcmsmartparking.configs.Config;
+import br.ufrn.gcmsmartparking.services.PushNotificationService;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private TextView nameClient;
-    private TextView plate;
+    private static TextView vacancy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.nameClient = (TextView) findViewById(R.id.nameClient);
-        this.plate = (TextView) findViewById(R.id.plate);
-        this.nameClient.setText("Dannylo Johnathan");
-        this.plate.setText("HXM-8899");
+
+        this.vacancy = (TextView) findViewById(R.id.vacancy);
+
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -41,7 +39,23 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
+        PushNotificationService.setMainActivity(this);
         displayFirebaseRegId();
+
+        try {
+            String vaga = (String) getIntent().getExtras().get(getString(R.string.key_intent_vaga));
+            if (vaga != null) {
+                updateLayout(vaga);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateLayout(String vaga) {
+        if (vacancy != null) {
+            vacancy.setText(vaga);
+        }
     }
 
     private void displayFirebaseRegId() {
