@@ -16,6 +16,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import br.ufrn.gcmsmartparking.R;
 import br.ufrn.gcmsmartparking.annotation.AUTH;
 import br.ufrn.gcmsmartparking.annotation.POST;
 import br.ufrn.gcmsmartparking.annotation.PUT;
@@ -33,6 +34,7 @@ public class WebService {
 
     public User create(User user, Context context) throws Exception {
         ResponseEntity<String> responseEntity = null;
+        url = context.getApplicationContext().getResources().getString(R.string.key_base_url_webservice);
         try {
             url += montarPost(user.getClass());
 
@@ -61,6 +63,7 @@ public class WebService {
 
     public User put(User user, Context context) throws Exception {
         ResponseEntity<String> responseEntity = null;
+        url = context.getApplicationContext().getResources().getString(R.string.key_base_url_webservice);
         try {
             url += montarPut(user.getClass());
 
@@ -88,6 +91,7 @@ public class WebService {
 
     public User auth(User user, Context context) throws Exception {
         ResponseEntity<String> responseEntity = null;
+        url = context.getApplicationContext().getResources().getString(R.string.key_base_url_webservice);
         try {
             url += montarAuth(user.getClass());
 
@@ -146,7 +150,7 @@ public class WebService {
         String url = "";
 
         if (haAnnotation(classEntity, POST.class)) {
-            url = this.url.charAt(this.url.length() - 1) == '/' ? getPathName(classEntity) : "/" + getPathName(classEntity);
+            url = this.url.charAt(this.url.length() - 1) == '/' ? getPostName(classEntity) : "/" + getPostName(classEntity);
         } else {
             url = this.url.charAt(this.url.length() - 1) == '/' ? classEntity.getSimpleName() : "/" + classEntity.getSimpleName();
         }
@@ -157,7 +161,7 @@ public class WebService {
         String url = "";
 
         if (haAnnotation(classEntity, PUT.class)) {
-            url = this.url.charAt(this.url.length() - 1) == '/' ? getPathName(classEntity) : "/" + getPathName(classEntity);
+            url = this.url.charAt(this.url.length() - 1) == '/' ? getPutName(classEntity) : "/" + getPutName(classEntity);
         } else {
             url = this.url.charAt(this.url.length() - 1) == '/' ? classEntity.getSimpleName() : "/" + classEntity.getSimpleName();
         }
@@ -168,7 +172,7 @@ public class WebService {
         String url = "";
 
         if (haAnnotation(classEntity, AUTH.class)) {
-            url = this.url.charAt(this.url.length() - 1) == '/' ? getPathName(classEntity) : "/" + getPathName(classEntity);
+            url = this.url.charAt(this.url.length() - 1) == '/' ? getAuthName(classEntity) : "/" + getAuthName(classEntity);
         } else {
             url = this.url.charAt(this.url.length() - 1) == '/' ? classEntity.getSimpleName() : "/" + classEntity.getSimpleName();
         }

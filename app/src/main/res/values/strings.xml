@@ -3,4 +3,5 @@
 
     <string name="key_preference_user">key_preference_user</string>
     <string name="key_preference_token">key_preference_token</string>
+    <string name="key_base_url_webservice">https://smartparkingiot.herokuapp.com</string>
 </resources>

@@ -9,12 +9,12 @@ import br.ufrn.gcmsmartparking.annotation.PUT;
  * Email: victorlopesjg@gmail.com
  */
 
-@POST("user/create")
+@POST("user/")
 @PUT("user/update")
 @AUTH("user/auth")
 public class User {
     private String login;
-    private String senha;
+    private String password;
     private String token;
 
     public String getLogin() {
@@ -25,12 +25,12 @@ public class User {
         this.login = login;
     }
 
-    public String getSenha() {
-        return senha;
+    public String getPassword() {
+        return password;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getToken() {

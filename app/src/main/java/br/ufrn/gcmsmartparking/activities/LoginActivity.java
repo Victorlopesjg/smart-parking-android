@@ -18,7 +18,6 @@ import br.ufrn.gcmsmartparking.model.User;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private final String USER_KEY = "USER";
     private EditText login;
     private EditText password;
     private Button loginAction;
@@ -29,8 +28,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        if(PreferencesUserTools.getPreferencias(USER_KEY, getApplicationContext()) != null
-                && !PreferencesUserTools.getPreferencias(USER_KEY, getApplicationContext()).equalsIgnoreCase("")){
+        if(PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext()) != null
+                && !PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext()).equalsIgnoreCase("")){
             startActivity(new Intent(this, MainActivity.class));
         }
 
@@ -70,12 +69,12 @@ public class LoginActivity extends AppCompatActivity {
         protected Void doInBackground(String... params) {
             User user = new User();
             user.setLogin(params[0]);
-            user.setSenha(params[1]);
-            Log.i("LOGIN", user.getLogin() + " " + user.getSenha());
+            user.setPassword(params[1]);
+            Log.i("LOGIN", user.getLogin() + " " + user.getPassword());
             try {
                 User userResponse = this.getInstanceWebService().auth(user, getApplicationContext());
                 if(userResponse != null) {
-                    PreferencesUserTools.setPreferencias(userResponse, USER_KEY, false, getApplicationContext());
+                    PreferencesUserTools.setPreferencias(userResponse, getResources().getString(R.string.key_preference_user), false, getApplicationContext());
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -86,8 +85,8 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if(PreferencesUserTools.getPreferencias(USER_KEY, getApplicationContext()) != null &&
-                    PreferencesUserTools.getPreferencias(USER_KEY, getApplicationContext()).equals(login.getText().toString())){
+            if(PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext()) != null &&
+                    PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext()).equals(login.getText().toString())){
                 progressBar.setVisibility(View.GONE);
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
             } else {
