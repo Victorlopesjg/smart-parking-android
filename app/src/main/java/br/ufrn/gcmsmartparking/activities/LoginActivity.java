@@ -63,6 +63,18 @@ public class LoginActivity extends AppCompatActivity {
             return webService;
         }
 
+        public void sendTokenRegistrationServer(User user, final String token) {
+            Log.e("TAG_login_ACTIVITY", "sendRegistrationToServer: " + token);
+
+            try {
+                user.setToken(token);
+                getInstanceWebService().put(user, getApplicationContext());
+                Log.i("TAG_REGISTRATION", "TOKEN SUBMITED.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         @Override
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
@@ -78,6 +90,10 @@ public class LoginActivity extends AppCompatActivity {
                 boolean authorized = this.getInstanceWebService().auth(user, getApplicationContext());
                 if (authorized) {
                     PreferencesUserTools.setPreferencias(user, getString(R.string.key_preference_user), false, getApplicationContext());
+                    if(PreferencesUserTools.isTokenPreference(getApplicationContext())){
+                        String newToken = PreferencesUserTools.getPreferencias(getString(R.string.key_preference_token), getApplicationContext());
+                        this.sendTokenRegistrationServer(user, newToken);
+                    }
                 }
                 return authorized;
             } catch (Exception e) {

@@ -40,7 +40,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
 
     private void sendRegistrationToServer(final String token) {
-        Log.e(TAG, "sendRegistrationToServer: " + token);
+        Log.e(TAG, "TOKEN COMMITING IN SEVER: " + token);
 
         try {
             String username = PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext());
@@ -49,7 +49,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
                 user.setLogin(username);
                 user.setToken(token);
                 getWebServiceInstance().put(user, getApplicationContext());
-                Log.i("TAG_REGISTRATION", "TOKEN SUBMITED FOR SERVICE.");
+                Log.i("TAG_REGISTRATION_FCM", "TOKEN SUBMITED FOR SERVICE.");
             }
         } catch (Exception e) {
             e.printStackTrace();
