@@ -10,7 +10,7 @@ import br.ufrn.gcmsmartparking.annotation.PUT;
  */
 
 @POST("user/")
-@PUT("user/update")
+@PUT("user/token")
 @AUTH("user/auth")
 public class User {
     private String login;

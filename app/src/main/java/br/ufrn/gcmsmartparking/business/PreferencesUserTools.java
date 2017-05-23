@@ -3,6 +3,8 @@ package br.ufrn.gcmsmartparking.business;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import br.ufrn.gcmsmartparking.R;
 import br.ufrn.gcmsmartparking.model.User;
 
@@ -18,6 +20,10 @@ public class PreferencesUserTools {
     public static boolean isPreference(Context context) {
         return (PreferencesUserTools.getPreferencias(context.getString(R.string.key_preference_user), context) != null
                 && !PreferencesUserTools.getPreferencias(context.getString(R.string.key_preference_user), context).isEmpty());
+    }
+
+    public static boolean isTokenPreference(Context context){
+        return (PreferencesUserTools.getPreferencias(context.getString(R.string.key_preference_token), context) != null);
     }
 
     // Limpar preferencias do smartphone

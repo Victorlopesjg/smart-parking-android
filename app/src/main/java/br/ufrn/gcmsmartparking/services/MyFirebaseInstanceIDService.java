@@ -9,6 +9,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import br.ufrn.gcmsmartparking.R;
+import br.ufrn.gcmsmartparking.business.PreferencesUserTools;
 import br.ufrn.gcmsmartparking.business.WebService;
 import br.ufrn.gcmsmartparking.configs.Config;
 import br.ufrn.gcmsmartparking.model.User;
@@ -37,13 +38,19 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         LocalBroadcastManager.getInstance(this).sendBroadcast(registrationComplete);
     }
 
+
     private void sendRegistrationToServer(final String token) {
         Log.e(TAG, "sendRegistrationToServer: " + token);
 
         try {
-            User user = new User();
-            user.setToken(token);
-            getWebServiceInstance().put(user, getApplicationContext());
+            String username = PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext());
+            if(username != null) {
+                User user = new User();
+                user.setLogin(username);
+                user.setToken(token);
+                getWebServiceInstance().put(user, getApplicationContext());
+                Log.i("TAG_REGISTRATION", "TOKEN SUBMITED FOR SERVICE.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

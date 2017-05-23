@@ -72,6 +72,8 @@ public class WebService {
 
             Log.i("PUT URL", url);
 
+            Log.d("DEBUG ", getObjectMapperInstance().writeValueAsString(user));
+
             HttpEntity<String> requestEntity = new HttpEntity<String>(getObjectMapperInstance().writeValueAsString(user), headers);
             responseEntity = getRestTemplateInstance().exchange(url, HttpMethod.PUT, requestEntity, String.class);
 

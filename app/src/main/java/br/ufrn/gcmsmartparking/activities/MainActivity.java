@@ -14,7 +14,10 @@ import android.widget.TextView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import br.ufrn.gcmsmartparking.R;
+import br.ufrn.gcmsmartparking.business.PreferencesUserTools;
+import br.ufrn.gcmsmartparking.business.WebService;
 import br.ufrn.gcmsmartparking.configs.Config;
+import br.ufrn.gcmsmartparking.model.User;
 import br.ufrn.gcmsmartparking.services.PushNotificationService;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
 
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     private static TextView vacancy;
+    private WebService webService;
+
+    private WebService getInstanceWebService(){
+        if(webService == null){
+            this.webService = new WebService();
+        }
+        return webService;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +69,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+    public void sendTokenRegistrationServer(User user, final String token){
+        Log.e("TAG_MAIN_ACTIVITY", "sendRegistrationToServer: " + token);
+
+        try {
+            user.setToken(token);
+            getInstanceWebService().put(user, getApplicationContext());
+            Log.i("TAG_REGISTRATION", "TOKEN SUBMITED.");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void displayFirebaseRegId() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
         String regId = pref.getString(getString(R.string.key_preference_token), null);
@@ -66,8 +91,12 @@ public class MainActivity extends AppCompatActivity {
         if (user != null) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
-
-        Log.e(TAG, "Firebase reg id: " + regId);
+        if(regId != null) {
+            Log.e(TAG, "Firebase reg id: " + regId);
+            User userPreference = new User();
+            userPreference.setLogin(PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext()));
+            sendTokenRegistrationServer(userPreference, regId);
+        }
     }
 
     @Override

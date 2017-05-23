@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+
 import br.ufrn.gcmsmartparking.R;
 import br.ufrn.gcmsmartparking.business.PreferencesUserTools;
 import br.ufrn.gcmsmartparking.business.WebService;
