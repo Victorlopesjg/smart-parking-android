@@ -47,7 +47,7 @@ public class PushNotificationService extends FirebaseMessagingService {
             mMainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mMainActivity.updateLayout(remoteMessage.getData().get("message"));
+                    mMainActivity.updateLayout(remoteMessage.getData().get("number"));
                 }
             });
 
