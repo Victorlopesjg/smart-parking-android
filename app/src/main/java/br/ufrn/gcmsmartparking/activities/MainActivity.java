@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         };
 
         PushNotificationService.setMainActivity(this);
-       // displayFirebaseRegId();
+        displayFirebaseRegId();
 
         try {
             String vaga = (String) getIntent().getExtras().get(getString(R.string.key_intent_vaga));

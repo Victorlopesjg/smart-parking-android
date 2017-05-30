@@ -32,8 +32,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if (PreferencesUserTools.isPreference(getApplicationContext())) {
             startActivity(new Intent(this, MainActivity.class));
-        } else {
-            PreferencesUserTools.cleanPreferences(getApplicationContext());
         }
 
         login = (EditText) findViewById(R.id.login);
@@ -88,6 +86,8 @@ public class LoginActivity extends AppCompatActivity {
             Log.i("LOGIN", user.getLogin() + " " + user.getPassword());
             try {
                 boolean authorized = this.getInstanceWebService().auth(user, getApplicationContext());
+                Log.i("STATUS LOG: ", authorized + "");
+                Log.i("STATUS NEW TOKEN: ", PreferencesUserTools.isTokenPreference(getApplicationContext()) + "");
                 if (authorized) {
                     PreferencesUserTools.setPreferencias(user, getString(R.string.key_preference_user), false, getApplicationContext());
                     if(PreferencesUserTools.isTokenPreference(getApplicationContext())){

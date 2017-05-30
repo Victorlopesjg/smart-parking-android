@@ -43,7 +43,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         Log.e(TAG, "TOKEN COMMITING IN SEVER: " + token);
 
         try {
-            String username = PreferencesUserTools.getPreferencias(getResources().getString(R.string.key_preference_user), getApplicationContext());
+            String username = PreferencesUserTools.getPreferencias(getString(R.string.key_preference_user), getApplicationContext());
             if(username != null) {
                 User user = new User();
                 user.setLogin(username);
@@ -58,10 +58,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
 
     private void storeRegIdInPref(String token) {
-        SharedPreferences pref = getApplicationContext().getSharedPreferences(Config.SHARED_PREF, 0);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(getString(R.string.key_preference_token), token);
-        editor.commit();
+        PreferencesUserTools.setPreferencias(token, getString(R.string.key_preference_token), false, getApplicationContext());
+        Log.d("TOKEN_STORED", "STORED " + PreferencesUserTools.getPreferencias(getString(R.string.key_preference_token), getApplicationContext()));
     }
 
     private WebService getWebServiceInstance() {
