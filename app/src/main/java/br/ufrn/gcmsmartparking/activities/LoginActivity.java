@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         public void sendTokenRegistrationServer(User user, final String token) {
-            Log.e("TAG_login_ACTIVITY", "sendRegistrationToServer: " + token);
+            Log.e("TAG_LOGIN_ACTIVITY", "sendRegistrationToServer: " + token);
 
             try {
                 user.setToken(token);
@@ -83,11 +83,8 @@ public class LoginActivity extends AppCompatActivity {
             User user = new User();
             user.setLogin(params[0]);
             user.setPassword(params[1]);
-            Log.i("LOGIN", user.getLogin() + " " + user.getPassword());
             try {
                 boolean authorized = this.getInstanceWebService().auth(user, getApplicationContext());
-                Log.i("STATUS LOG: ", authorized + "");
-                Log.i("STATUS NEW TOKEN: ", PreferencesUserTools.isTokenPreference(getApplicationContext()) + "");
                 if (authorized) {
                     PreferencesUserTools.setPreferencias(user, getString(R.string.key_preference_user), false, getApplicationContext());
                     if(PreferencesUserTools.isTokenPreference(getApplicationContext())){

@@ -40,13 +40,21 @@ public class PushNotificationService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         Log.d(TAG, "Message: " + remoteMessage.getData());
-        sendNotification("Sua vaga é: " + remoteMessage.getData().get("number"), remoteMessage.getData().get("number"));
+        String message = "";
+        if(remoteMessage.getData().get("errors") != null && !remoteMessage.getData().get("error").equals("")){
+            message = remoteMessage.getData().get("errors");
+            sendNotification("Indisponível,", message);
+        } else {
+            message = remoteMessage.getData().get("number");
+            sendNotification("Sua vaga é: " + remoteMessage.getData().get("number"), remoteMessage.getData().get("number"));
+        }
 
         if (mMainActivity != null) {
+            final String finalMessage = message;
             mMainActivity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    mMainActivity.updateLayout(remoteMessage.getData().get("number"));
+                    mMainActivity.updateLayout(finalMessage);
                 }
             });
 
